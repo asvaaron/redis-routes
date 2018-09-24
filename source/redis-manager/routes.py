@@ -9,11 +9,11 @@ class Routes ():
         self.root_key_name= 'route'
 
 
-    def insert_new_route(self, route_name, nodes, times):
+    def insert_new_route(self, route_name, places, times):
         self.redis.redis_connection.hmset(self.root_key_name+':'+str(route_name),
                                           {
-                                              'node':nodes,
-                                              'times':times
+                                              'places': places,
+                                              'times': times
                                   }
                               )
 
