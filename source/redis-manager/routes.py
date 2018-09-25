@@ -9,9 +9,13 @@ class Routes ():
         self.root_key_name= 'route'
 
 
+    def route_hash_name(self, route_name):
+        return self.root_key_name+':'+str(route_name)
+
+
     def insert_new_route(self, route_name, places, times):
         self.redis.redis_connection.hmset(
-            self.root_key_name+':'+str(route_name),
+            self.route_hash_name(route_name),
             {
                 'places': places,
                 'times': times
@@ -19,9 +23,15 @@ class Routes ():
         )
 
 
+    def routes_keys_list(self, route_name):
+        return self.redis.redis_connection.hkeys(
+            self.route_hash_name(route_name)
+        )
+
+
     def get_route(self,route_name):
         return self.redis.redis_connection.hmget(
-            self.root_key_name+':'+str(route_name),
+            self.route_hash_name(route_name),
             [
                 'places',
                 'times'
@@ -30,4 +40,4 @@ class Routes ():
 
 rout = Routes()
 rout.insert_new_route('lala', ['hello', 'asdas', 'dassd'], ['11/13/18', '15/12/18'])
-print(rout.get_route('lala'))
+print(rout.routes_keys_list('lala'))
