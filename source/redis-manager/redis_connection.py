@@ -5,6 +5,7 @@ class RedisConnection:
 
     # Default port: 6378
     # Default host: localhost
+    # Default db: 0
     def __init__(self, host='127.0.0.1', db=0, port=6378):
         """
         Create an Redis Connection and prints any possible exception
