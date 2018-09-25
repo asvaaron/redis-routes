@@ -47,16 +47,12 @@ class Routes ():
 
     def get_route(self,route_name):
         """
-        Return an array with all the key values
+        Return an python dic with all the key-values
         :param route_name:
         :return: array
         """
-        return self.redis.redis_connection.hmget(
+        return self.redis.redis_connection.hgetall(
             self.route_hash_name(route_name),
-            [
-                'places',
-                'times'
-            ]
         )
 
 rout = Routes()
