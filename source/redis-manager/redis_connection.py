@@ -6,7 +6,14 @@ class RedisConnection:
     # Default port: 6378
     # Default host: localhost
     def __init__(self, host='127.0.0.1', db=0, port=6378):
-        # Configure Redis Connection
+        """
+        Create an Redis Connection and prints any possible exception
+
+        :param host: Redis host
+        :param db: Redis database namespace
+        :param port: Redis port
+        """
+        """Configure Redis database connection """
         try:
             self.redis_connection = redis.StrictRedis(
                 host=host,
@@ -34,6 +41,6 @@ class RedisConnection:
 #                              )
 # #
 #
-# # Block Chain List
+# # Block  List
 # for i in range(0, 10):
 #     print(redis.redis_connection.brpop({'comments'}, timeout=100))
