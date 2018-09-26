@@ -94,9 +94,23 @@ class Routes ():
             array.append(key)
         return array
 
+    def bloom_filter(self, name_string):
+        """
+        Inserts in a bloom filter new string if it does not exists
+        :param name_string: string name
+        :return: boolean false (exists) true (not exists)
+        """
+        commad1 = "BF.EXISTS bloom %s" % name_string
+        commad2 = "BF.ADD bloom %s" % name_string
+        exists = int(self.redis_conn.execute_command(commad1))
+        if not exists:
+            self.redis_conn.execute_command(commad2)
+        return not exists
+
 
 rout = Routes()
 rout.insert_new_route('perro', ['San Jose', 'Managua', 'New York'], ['11/13/18', '15/12/18'])
 #print(rout.get_route('lala'))
 # rout.get_all_routes()
-rout.plot_route('perro')
+# rout.plot_route('perro')
+print(rout.bloom_filter('Hello22'))

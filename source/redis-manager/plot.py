@@ -80,6 +80,6 @@ class Plot:
             last_lat = loc.latitude
             count+=1
         plt.show()
-
-lal= Plot()
-lal.plot_city_in_map(routes=['Sydney','Tokio','Londres', 'Mexico DF'])
+#
+# lal= Plot()
+# lal.plot_city_in_map(routes=['Sydney','Tokio','Londres', 'Mexico DF'])
