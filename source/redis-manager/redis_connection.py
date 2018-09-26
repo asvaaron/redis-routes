@@ -19,7 +19,9 @@ class RedisConnection:
             self.redis_connection = redis.StrictRedis(
                 host=host,
                 port=port,
-                db=db
+                db=db,
+                charset="utf-8",
+                decode_responses=True
             )
         except IOError as e:
             print

@@ -1,6 +1,8 @@
 from redis_connection import RedisConnection
 from settings import REDIS_PORT
-
+from plot import Plot
+import json
+import numpy as np
 
 class Routes ():
 
@@ -8,6 +10,7 @@ class Routes ():
         self.redis = RedisConnection(port=REDIS_PORT)
         self.redis_conn=self.redis.redis_connection
         self.root_key_name = 'route'
+        self.ploter = Plot()
 
 
     def route_hash_name(self, route_name):
@@ -34,6 +37,21 @@ class Routes ():
             }
         )
 
+    def convert_to_list(self, string_array):
+        """
+        Convert type string array ['A','B'] to list type
+        :param string_array: string in array format
+        :return: list type
+        """
+        string_array = string_array.replace("'", "\"")
+        return json.loads(string_array)
+
+    def plot_route(self, route_name):
+
+        places=self.get_route_dic(route_name)['places']
+        lala=self.convert_to_list(places)
+        print(type(['Amsterdam', 'Paris', 'Londres', 'Mexico DF']))
+        self.ploter.plot_routes(routes=lala)
 
     def routes_keys_list(self, route_name):
         """
@@ -52,10 +70,10 @@ class Routes ():
         :param route_name: string route name
         :return: python route dictionary
         """
-        return self.redis_conn.hgetall(
+        dic = self.redis_conn.hgetall(
             self.route_hash_name(route_name),
         )
-
+        return  dic
     def get_all_routes(self, filter=None,count=None):
         """
         Return an array with all the routes available
@@ -78,6 +96,7 @@ class Routes ():
 
 
 rout = Routes()
-#rout.insert_new_route('lala', ['hello', 'asdas', 'dassd'], ['11/13/18', '15/12/18'])
+rout.insert_new_route('perro', ['San Jose', 'Managua', 'New York'], ['11/13/18', '15/12/18'])
 #print(rout.get_route('lala'))
-rout.get_all_routes()
+# rout.get_all_routes()
+rout.plot_route('perro')

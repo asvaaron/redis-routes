@@ -16,4 +16,11 @@ $ cp .template.env .env
 ```
 
 Add modify the Redis credentials, host and port 
-variables  
+variables
+
+## Base Map
+
+```bash
+$ sudo apt-get install libgeos-dev
+$ pip install https://github.com/matplotlib/basemap/archive/master.zip
+```  
