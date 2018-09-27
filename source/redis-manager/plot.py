@@ -43,7 +43,6 @@ class Plot:
         plt.axis('off')
         plt.show()
         plt.close()
-        plt.savefig('this.png')
 
 
 
