@@ -18,7 +18,7 @@ rout = Routes()
 # Seeds Routes
 
 rout.insert_new_route('hmsa48', ['Costa Rica', 'Panama', 'New York'], ['26/09/18-11:00:00', '26/09/18-11:00:00'])
-
+rout.insert_new_route('hmsa49', ['Managua', 'Mexico DF'], ['26/09/18-11:00:00'])
 
 
 def create_new_route():
@@ -30,7 +30,7 @@ def create_new_route():
     for i in range(0, num_places):
         array_places.append(str(input("Enter city name (string): ")))
         if i < num_places-1:
-            array_times.append(str(input("Enter departure datetime (dd/mm/yyy-hh:mm:ss): ")))
+            array_times.append(str(input("Enter departure datetime (dd/mm/yyyy-hh:mm:ss): ")))
     flag = rout.insert_new_route(
         route_name=name,
         places=array_places,
