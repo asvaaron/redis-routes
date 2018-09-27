@@ -47,7 +47,7 @@ class Plot:
 
 
 
-    def plot_city_in_map(self,routes=None):
+    def plot_city_in_map(self,name, routes=None):
         geolocator = Nominatim()
         fig = plt.figure(num=None, figsize=(150, 150))
         m = Basemap(projection='merc', llcrnrlat=-80, urcrnrlat=80, llcrnrlon=-180, urcrnrlon=180, resolution='c')
@@ -55,6 +55,7 @@ class Plot:
         m.fillcontinents(color='tan', lake_color='lightblue')
         # draw parallels and meridians.
         m.drawmapboundary(fill_color='lightblue')
+        m.drawcountries(color='black')
 
         nylat = 40.78;
         nylon = -73.98
@@ -63,23 +64,31 @@ class Plot:
         lonlon = 0.08
         # draw great circle route between NY and London
         # m.drawgreatcircle(nylon, nylat, lonlon, lonlat, linewidth=2, color='b')
-        last_long=0
-        last_lat=0
-        count=0
+        last_long = 0
+        last_lat = 0
+        count = 0
+        color = None
         for city in routes:
             loc = geolocator.geocode(city)
             # x, y = map(loc.longitude, loc.latitude)
-            if (count !=0) :
+            if count !=0 :
                 print('lala: %s' % count)
                 print(loc)
-                m.drawgreatcircle(last_long, last_lat, loc.longitude, loc.latitude, linewidth=2, color='b')
+                if (count % 2) is 0:
+                    color = 'b'
+                else:
+                    color = 'g'
+                m.drawgreatcircle(last_long, last_lat, loc.longitude, loc.latitude, linewidth=2, color=color)
             x, y = m(loc.longitude, loc.latitude)
-            m.plot(x,y,'b', markersize=50)
-            plt.text(x, y, city,fontsize=8 ,fontweight='bold', ha='left',va='top',color='k')
+            m.plot(x, y, 'b', markersize=50)
+
+
+            plt.text(x, y, city, fontsize=8 , fontweight='bold', ha='left', va='top', color='k')
             last_long = loc.longitude
             last_lat = loc.latitude
-            count+=1
+            count += 1
+        plt.title(name)
         plt.show()
-#
+# #
 # lal= Plot()
-# lal.plot_city_in_map(routes=['Sydney','Tokio','Londres', 'Mexico DF'])
+# lal.plot_city_in_map('lala', routes=['Buenos Aires','Londres','Moscu','Quito','Costa Rica','Tokio','Florida'])
