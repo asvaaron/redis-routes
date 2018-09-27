@@ -29,13 +29,21 @@ class Routes ():
         :param places: array strings all available places
         :param times: array strings  departure time for each place
         """
-        self.redis_conn.hmset(
-            self.route_hash_name(route_name),
-            {
-                'places': places,
-                'times': times
-            }
-        )
+        bloom = ''.join([str(x) for x in places])+''.join([str(x) for x in times])
+        bloom = bloom.replace(" ", "")
+        print(bloom)
+        if self.bloom_filter(bloom):
+
+            self.redis_conn.hmset(
+                self.route_hash_name(route_name),
+                {
+                    'places': places,
+                    'times': times
+                }
+            )
+            return True
+        else:
+            return False
 
     def convert_to_list(self, string_array):
         """
@@ -46,12 +54,17 @@ class Routes ():
         string_array = string_array.replace("'", "\"")
         return json.loads(string_array)
 
-    def plot_route(self, route_name):
+    def plot_graph_route(self, route_name):
 
         places=self.get_route_dic(route_name)['places']
         lala=self.convert_to_list(places)
         print(type(['Amsterdam', 'Paris', 'Londres', 'Mexico DF']))
-        self.ploter.plot_routes(routes=lala)
+        self.ploter.plot_routes(name=route_name, routes=lala)
+
+    def plot_cities_route(self, route_name):
+        places = self.get_route_dic(route_name)['places']
+        lala = self.convert_to_list(places)
+        self.ploter.plot_city_in_map(name=route_name, routes=lala)
 
     def routes_keys_list(self, route_name):
         """
@@ -109,8 +122,9 @@ class Routes ():
 
 
 rout = Routes()
-rout.insert_new_route('perro', ['San Jose', 'Managua', 'New York'], ['11/13/18', '15/12/18'])
-#print(rout.get_route('lala'))
-# rout.get_all_routes()
-# rout.plot_route('perro')
-print(rout.bloom_filter('Hello22'))
+# rout.insert_new_route('perro', ['San Jose', 'Managua', 'New York'], ['11/13/18', '15/12/18'])
+# #print(rout.get_route('lala'))
+# # rout.get_all_routes()
+# rout.plot_graph_route('perro')
+# rout.plot_cities_route('perro')
+print(rout.bloom_filter('Hello2222'))

@@ -1,6 +1,8 @@
 basemap==1.2.0
+console-menu==0.4.0
 cycler==0.10.0
 decorator==4.3.0
+ezenv==0.84
 geographiclib==1.49
 geopy==1.17.0
 jsonpickle==1.0
